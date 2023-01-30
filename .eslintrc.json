@@ -7,7 +7,9 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/recommended",
+        "airbnb"
     ],
     "overrides": [
     ],
@@ -17,8 +19,11 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "import"
     ],
     "rules": {
-    }
+        "no-console": "error"
+    },
+    "root": true
 }
