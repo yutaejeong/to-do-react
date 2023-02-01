@@ -1,5 +1,5 @@
 name: Reject strange branch
-on: [push]
+on: [push, workflow_call]
 jobs:
   say-hello:
     runs-on: ubuntu-latest
