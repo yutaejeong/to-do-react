@@ -2,7 +2,7 @@ name: Folder Change Workflow
 on:
   push:
     paths:
-      - "folder-to-watch/**" # 변경사항을 감시할 폴더 경로
+      - "src/**" # 변경사항을 감시할 폴더 경로
 
 jobs:
   check-changes:
