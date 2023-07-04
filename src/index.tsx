@@ -11,6 +11,8 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
+// 테스트
+
 root.render(
   <React.StrictMode>
     <RecoilRoot>

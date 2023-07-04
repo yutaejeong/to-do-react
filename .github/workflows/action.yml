@@ -1,13 +1,37 @@
-name: "Hello World"
-description: "Greet someone and record the time"
-inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
-    required: true
-    default: "World"
-outputs:
-  time: # id of output
-    description: "The time we greeted you"
-runs:
-  using: "node16"
-  main: "index.js"
+name: Folder Change Workflow
+on:
+  push:
+    paths:
+      - "folder-to-watch/**" # 변경사항을 감시할 폴더 경로
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for folder changes
+        id: folder-changed
+        run: |
+          if [[ -n "$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})" ]]; then
+            echo "$(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }})"
+            echo "::set-output name=changed::true"
+          else
+            echo "::set-output name=changed::false"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if changes outside folder
+        if: steps.folder-changed.outputs.changed == 'false'
+        run: |
+          echo "There are no changes in the folder-to-watch directory."
+          exit 1
+
+      # 변경사항이 폴더 내에 있는 경우에만 이어서 작업을 수행합니다.
+      - name: Continue with workflow
+        if: steps.folder-changed.outputs.changed == 'true'
+        run: |
+          # 변경사항이 발생한 경우에 수행할 작업들을 여기에 작성합니다.
+          # 예: 빌드, 배포, 테스트 등
